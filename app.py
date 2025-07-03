@@ -4,7 +4,7 @@ from db import table, update, usrs, chk_usr , add_usr
 
 
 app = Flask(__name__)
-app.secret_key = ''
+app.secret_key = 'SECRET_KEY'
 
 # Index Page
 @app.route("/")
