@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<header>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</header>
+
+<body>
+
+     <a class="top" href="/login">Log out</a>
+
+    <h1>HELP DESK TICKETS</h1>
+
+    <form method="post">
+
+        {% if mode == "add"%}
+            <button name = "exit">Exit</button>
+        {% else %}
+            <button name = "add">Add</button>
+        {% endif %}
+
+        {% if mode == "edit" or mode == "add" or mode == "delete" %}
+            <button name = "save">Save</button>
+        {% else %}
+            <button name = "edit">Edit</button>
+        {% endif %}
+        
+        {% if usr != 'admin'%}
+        {% elif mode == "delete"%}
+            <button name = "exit">Exit</button>
+        {% else %}
+            <button name = "delete">Delete</button>
+        {% endif %}
+
+
+        {% if error == "Integer" %}
+            <p class="invalid">Ticket ID must be a Positive Integer</p>
+        {% elif error == "Unique" %}
+            <p class="invalid">Ticket ID must be Unique</p>
+        {% elif error == "Datetime"%}
+            <p class="invalid">Datetime must be in a valid format</p>
+        {% elif error == "Status"%}
+            <p class="invalid">Status must be either Pending, Assigned, or Resolved</p>
+        {% elif error == "Priority"%}
+            <p class="invalid">Priority must be either High or Low</p>
+        {% else %}
+            <br><br>
+        {% endif %}
+    
+        <table>
+            <tr>
+                <th></th>
+                <th>Ticket ID</th>  
+                <th>Caller</th>
+                <th>Details</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Creation Timestamp</th>
+            </tr>
+
+            {% for i in range(table|length) %}
+                <tr>
+                    {% if mode == "delete" %}
+                        <td><input type="checkbox" name="{{ table[i][0] }} del"></td>
+                    {% else %}
+                        <td><input type="checkbox" style="visibility: hidden"></td>
+                    {% endif %}
+
+                    {% for j in range(table[i]|length) %}
+
+                        {% if mode == "edit" %}
+                            <td><input value = "{{ table[i][j] }}" name="{{ table[i][0] }} {{ j }}" onkeydown="if(event.keyCode===13){return false;}" autocomplete=""></td>
+                        {% else %}
+                            <td><input value = "{{ table[i][j] }}" disabled></td>
+                        {% endif %}
+
+                    {% endfor %} 
+                </tr>
+            {% endfor %}
+
+            {% if mode == "add" %}
+                <tr>
+                    <td><input type="checkbox" style="visibility: hidden"></td>
+                    <td><input name="new 0"></td>
+                    <td><input name="new 1"></td>
+                    <td><input name="new 2"></td>
+                    <td><input name="new 3"></td>
+                    <td><input name="new 4"></td>
+                    <td><input name="new 5"></td>
+                </tr>
+            {% endif %}
+            
+        </table>
+
+    </form>
+
+    <div class="usrs">
+        <table>
+            <th>User List</th>
+
+            {% for i in usrs %}
+
+                <tr><td>{{ i[0] }}</td></tr>
+
+            {% endfor %}
+        </table>
+    </div>
+
+</body> 

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<header>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</header>
+
+<body>
+    <form class="login" method="post">
+        <label>Username</label> <br> <input class="textinput" size="50" name="usr"> <br><br>
+        <label>Password</label> <br> <input class="textinput" size="50" type="password" name="pw"> <br><br>
+
+        {% if register %}
+            <label>Confirm Password</label> <br> <input class="textinput" size="50" type="password" name="pw2"> <br><br>
+            <button name = "back">Back</button>
+            <button name = "confirm">Register</button>
+        {% else %}
+            <button name = "login">Log in</button>
+            <button name = "register">Register</button>
+        {% endif %}
+        
+
+        {% if fail == "auth" %}
+            <p class="invalid">Invalid Username or Password</p>
+        {% elif fail == "confirm" %}
+            <p class="invalid">Passwords do not match</p>
+        {% elif fail == "taken" %}
+            <p class="invalid">Username already in use</p>
+        {% elif registered %}
+            <p class="success">Successfully Registered</p>
+        {% endif %}
+    </form> 
+    
+</body>
